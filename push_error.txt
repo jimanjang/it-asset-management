@@ -1,0 +1,98 @@
+﻿git : Pushing to https:
+//github.com/jimanjang/
+it-asset-management.git
+위치 줄:1 문자:1
++ git push -v origin ma
+in 2>&1 | Out-File -Fil
+ePath push_error.txt -E
+nc ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Pushing to ht   
+ tp...-management.g    
+it:String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+POST git-receive-pack (
+517922 bytes)
+remote: error: GH013: R
+epository rule violatio
+ns found for refs/heads
+/main.        
+remote: 
+remote: - GITHUB PUSH P
+ROTECTION        
+remote:   ?붴붴붴붴붴붴
+붴붴붴붴붴붴붴붴붴붴붴붴
+붴붴붴붴붴붴붴붴붴붴붴
+붴붴붴붴붴붴붴붴붴붴붴?
+       
+remote:     Resolve the
+ following violations b
+efore pushing again    
+    
+remote: 
+remote:     - Push cann
+ot contain secrets     
+   
+remote: 
+remote:             
+remote:      (?) Learn 
+how to resolve a blocke
+d push        
+remote:      https://do
+cs.github.com/code-secu
+rity/secret-scanning/wo
+rking-with-secret-scann
+ing-and-push-protection
+/working-with-push-prot
+ection-from-the-command
+-line#resolving-a-block
+ed-push        
+remote:             
+remote:             
+remote:       ?붴?Googl
+e Cloud Service Account
+ Credentials ?붴붴붴붴붴
+붴붴붴붴?       
+remote:        location
+s:        
+remote:          - comm
+it: e7d61da0d1e62a6b325
+8e851a83e467239fd47c2  
+      
+remote:            path
+: backend/service-accou
+nt.json:1        
+remote:             
+remote:        (?) To p
+ush, remove secret from
+ commit(s) or follow th
+is URL to allow the sec
+ret.        
+remote:        https://
+github.com/jimanjang/it
+-asset-management/secur
+ity/secret-scanning/unb
+lock-secret/3BQfcx4lKQm
+Ne7cpbnoRdcVySUN       
+ 
+remote:             
+remote: 
+remote: 
+To https://github.com/j
+imanjang/it-asset-manag
+ement.git
+ ! [remote rejected] ma
+in -> main (push declin
+ed due to repository ru
+le violations)
+error: failed to push s
+ome refs to 'https://gi
+thub.com/jimanjang/it-a
+sset-management.git'

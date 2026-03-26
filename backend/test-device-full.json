@@ -1,0 +1,663 @@
+{
+  "kind": "admin#directory#chromeosdevice",
+  "etag": "\"1jGAF1FWZlpfhWcmHrlfmqb5ce_W0dm0ajQixlgUSrw/ByNUKAOVKVFtcf5_cmqDJWtWYS4\"",
+  "deviceId": "63cb306f-4251-4512-93b3-2debf63c6002",
+  "serialNumber": "911PGXA346082",
+  "status": "ACTIVE",
+  "lastSync": "2026-03-24T02:20:08.067Z",
+  "annotatedUser": "laika@daangnservice.com",
+  "model": "LG Electronics 14T90N-VA70K",
+  "osVersion": "145.0.7632.216",
+  "platformVersion": "16552.59.0 (Official Build) stable-channel reven",
+  "firmwareVersion": "FirmwareNotParsed",
+  "macAddress": "287fcfdd8cc7",
+  "lastEnrollmentTime": "2026-03-23T02:57:48.737Z",
+  "firstEnrollmentTime": "2026-03-23T02:57:48.737Z",
+  "deviceLicenseType": "enterpriseUpgradeFixedTerm",
+  "osUpdateStatus": {
+    "targetOsVersion": "",
+    "targetKioskAppVersion": "",
+    "updateTime": "2026-03-23T02:58:53.272Z",
+    "updateCheckTime": "2026-03-24T00:27:24.000Z",
+    "rebootTime": "2026-03-24T00:19:07.619Z"
+  },
+  "orgUnitPath": "/chrome os flex test",
+  "orgUnitId": "03ph8a2z20z6jot",
+  "recentUsers": [
+    {
+      "type": "USER_TYPE_MANAGED",
+      "email": "laika@daangnservice.com"
+    }
+  ],
+  "ethernetMacAddress": "4ce1734cb81d",
+  "activeTimeRanges": [
+    {
+      "date": "2026-03-23",
+      "activeTime": 2579781
+    },
+    {
+      "date": "2026-03-24",
+      "activeTime": 1500029
+    }
+  ],
+  "tpmVersionInfo": {
+    "family": "322e3000",
+    "specLevel": "8a",
+    "manufacturer": "494e5443",
+    "tpmModel": "0",
+    "firmwareVersion": "1f4000e00000000",
+    "vendorSpecific": "Intel"
+  },
+  "cpuStatusReports": [
+    {
+      "reportTime": "2026-03-23T02:57:51.948Z",
+      "cpuUtilizationPercentageInfo": [
+        9
+      ]
+    },
+    {
+      "reportTime": "2026-03-23T02:58:51.945Z",
+      "cpuTemperatureInfo": [
+        {
+          "temperature": 29,
+          "label": "iwlwifi_1\n"
+        },
+        {
+          "temperature": 38,
+          "label": "Core 1\n"
+        },
+        {
+          "temperature": 39,
+          "label": "Core 2\n"
+        },
+        {
+          "temperature": 39,
+          "label": "Package id 0\n"
+        },
+        {
+          "temperature": 39,
+          "label": "Core 3\n"
+        },
+        {
+          "temperature": 39,
+          "label": "Core 0\n"
+        },
+        {
+          "temperature": 27,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 41,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 41,
+          "label": "acpitz\n"
+        }
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:18:28.566Z",
+      "cpuUtilizationPercentageInfo": [
+        6
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:19:28.570Z",
+      "cpuTemperatureInfo": [
+        {
+          "temperature": 27,
+          "label": "iwlwifi_1\n"
+        },
+        {
+          "temperature": 31,
+          "label": "Core 1\n"
+        },
+        {
+          "temperature": 33,
+          "label": "Core 2\n"
+        },
+        {
+          "temperature": 34,
+          "label": "Package id 0\n"
+        },
+        {
+          "temperature": 33,
+          "label": "Core 3\n"
+        },
+        {
+          "temperature": 32,
+          "label": "Core 0\n"
+        },
+        {
+          "temperature": 27,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 37,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 37,
+          "label": "acpitz\n"
+        }
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:30:41.750Z",
+      "cpuUtilizationPercentageInfo": [
+        2
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:31:41.645Z",
+      "cpuTemperatureInfo": [
+        {
+          "temperature": 27,
+          "label": "iwlwifi_1\n"
+        },
+        {
+          "temperature": 33,
+          "label": "Core 1\n"
+        },
+        {
+          "temperature": 34,
+          "label": "Core 2\n"
+        },
+        {
+          "temperature": 36,
+          "label": "Package id 0\n"
+        },
+        {
+          "temperature": 35,
+          "label": "Core 3\n"
+        },
+        {
+          "temperature": 33,
+          "label": "Core 0\n"
+        },
+        {
+          "temperature": 27,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 37,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 37,
+          "label": "acpitz\n"
+        }
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:52:27.638Z",
+      "cpuUtilizationPercentageInfo": [
+        1
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:53:27.530Z",
+      "cpuTemperatureInfo": [
+        {
+          "temperature": 27,
+          "label": "iwlwifi_1\n"
+        },
+        {
+          "temperature": 37,
+          "label": "Core 1\n"
+        },
+        {
+          "temperature": 38,
+          "label": "Core 2\n"
+        },
+        {
+          "temperature": 38,
+          "label": "Package id 0\n"
+        },
+        {
+          "temperature": 38,
+          "label": "Core 3\n"
+        },
+        {
+          "temperature": 37,
+          "label": "Core 0\n"
+        },
+        {
+          "temperature": 27,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 38,
+          "label": "acpitz\n"
+        },
+        {
+          "temperature": 38,
+          "label": "acpitz\n"
+        }
+      ]
+    }
+  ],
+  "systemRamTotal": "8047497216",
+  "systemRamFreeReports": [
+    {
+      "reportTime": "2026-03-23T02:57:51.941Z",
+      "systemRamFreeInfo": [
+        "5915598848"
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:18:28.564Z",
+      "systemRamFreeInfo": [
+        "6615330816"
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:30:41.639Z",
+      "systemRamFreeInfo": [
+        "6651445248"
+      ]
+    },
+    {
+      "reportTime": "2026-03-24T00:52:27.528Z",
+      "systemRamFreeInfo": [
+        "6655266816"
+      ]
+    }
+  ],
+  "diskVolumeReports": [
+    {
+      "volumeInfo": [
+        {
+          "volumeId": "/media/archive",
+          "storageTotal": "4023746560",
+          "storageFree": "4023746560"
+        },
+        {
+          "volumeId": "/media/removable",
+          "storageTotal": "4023746560",
+          "storageFree": "4023746560"
+        }
+      ]
+    }
+  ],
+  "lastKnownNetwork": [
+    {
+      "ipAddress": "172.17.15.107",
+      "wanIpAddress": "61.100.70.109"
+    }
+  ],
+  "cpuInfo": [
+    {
+      "model": "Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz",
+      "architecture": "x64",
+      "maxClockSpeedKhz": 4900000,
+      "logicalCpus": [
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 605111,
+          "idleDuration": "2012s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.347792s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "2.448136s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "7.415685s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1906.808962s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "33.110468s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "30.365522s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "15.255429s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.150387s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "16.354179s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3395571,
+          "idleDuration": "2016s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.548693s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.365992s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.469237s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1968.503297s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "23.702808s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "16.523677s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.483853s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.121981s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "4.167915s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3260239,
+          "idleDuration": "2018s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.360147s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.413356s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "6.313311s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1956.839050s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "22.782128s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "15.949086s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "11.142069s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.143198s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "4.207114s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3395689,
+          "idleDuration": "2018s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.380711s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.266898s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.435989s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1972.474997s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "21.616938s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "16.479489s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.307978s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.124129s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "3.538423s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 2112637,
+          "idleDuration": "2018s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.380126s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.412680s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.282841s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1962.438008s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "24.404888s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "22.043630s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.256484s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.120179s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "5.302839s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3396730,
+          "idleDuration": "2014s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.283067s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.701259s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.821120s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1939.869965s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "31.449719s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "19.173559s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.876016s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.112868s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "17.295013s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3402866,
+          "idleDuration": "2014s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.319967s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.581247s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.581509s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1964.932911s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "22.833689s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "17.978509s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.525971s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.130909s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "3.938569s"
+            }
+          ]
+        },
+        {
+          "maxScalingFrequencyKhz": 4900000,
+          "currentScalingFrequencyKhz": 3400097,
+          "idleDuration": "2016s",
+          "cStates": [
+            {
+              "displayName": "C7s",
+              "sessionDuration": "0.293597s"
+            },
+            {
+              "displayName": "C3",
+              "sessionDuration": "1.272326s"
+            },
+            {
+              "displayName": "C1",
+              "sessionDuration": "1.565768s"
+            },
+            {
+              "displayName": "C10",
+              "sessionDuration": "1971.783319s"
+            },
+            {
+              "displayName": "C8",
+              "sessionDuration": "21.221107s"
+            },
+            {
+              "displayName": "C6",
+              "sessionDuration": "15.301344s"
+            },
+            {
+              "displayName": "C1E",
+              "sessionDuration": "2.190499s"
+            },
+            {
+              "displayName": "POLL",
+              "sessionDuration": "0.113157s"
+            },
+            {
+              "displayName": "C9",
+              "sessionDuration": "3.697557s"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "backlightInfo": [
+    {
+      "path": "/sys/class/backlight/intel_backlight",
+      "maxBrightness": 120000,
+      "brightness": 74559
+    }
+  ],
+  "extendedSupportEligible": false,
+  "bluetoothAdapterInfo": [
+    {
+      "address": "28:7F:CF:DD:8C:CB",
+      "numConnectedDevices": 0
+    }
+  ],
+  "chromeOsType": "chromeOsFlex",
+  "diskSpaceUsage": {
+    "capacityBytes": "274877906944",
+    "usedBytes": "48394895360"
+  },
+  "osVersionCompliance": "compliant"
+}
