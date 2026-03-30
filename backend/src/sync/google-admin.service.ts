@@ -20,27 +20,41 @@ export class GoogleAdminService implements OnModuleInit {
 
   private async initialize() {
     try {
-      const keyFilePath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-      const delegatedAdmin = process.env.GOOGLE_DELEGATED_ADMIN;
+      const keyFilePath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY?.trim();
+      const delegatedAdmin = process.env.GOOGLE_DELEGATED_ADMIN?.trim();
 
-      if (!keyFilePath || !delegatedAdmin) {
-        this.logger.warn(
-          'Google Service Account not configured. Set GOOGLE_SERVICE_ACCOUNT_KEY and GOOGLE_DELEGATED_ADMIN env vars.',
-        );
+      if (!keyFilePath) {
+        this.logger.error('❌ GOOGLE_SERVICE_ACCOUNT_KEY is missing from environment variables.');
+        return;
+      }
+      if (!delegatedAdmin) {
+        this.logger.error('❌ GOOGLE_DELEGATED_ADMIN is missing from environment variables.');
         return;
       }
 
+      this.logger.log('Attempting to initialize Google Admin SDK...');
+
       let keyFile: any;
-      if (fs.existsSync(keyFilePath)) {
+      if (keyFilePath.startsWith('{') || keyFilePath.startsWith('[')) {
+        this.logger.log('Detected GOOGLE_SERVICE_ACCOUNT_KEY as inline JSON string.');
+        keyFile = JSON.parse(keyFilePath);
+      } else if (fs.existsSync(keyFilePath)) {
+        this.logger.log(`Detected GOOGLE_SERVICE_ACCOUNT_KEY as file path: ${keyFilePath}`);
         keyFile = JSON.parse(fs.readFileSync(keyFilePath, 'utf8'));
       } else {
-        // Try parsing as JSON directly
-        keyFile = JSON.parse(keyFilePath);
+        this.logger.error(`❌ GOOGLE_SERVICE_ACCOUNT_KEY specified as path but file not found: ${keyFilePath}`);
+        this.logger.warn('Hint: If you pasted the JSON content, make sure it starts with "{" (no quotes).');
+        return;
+      }
+
+      if (!keyFile.client_email || !keyFile.private_key) {
+        this.logger.error('❌ GOOGLE_SERVICE_ACCOUNT_KEY JSON is invalid (missing client_email or private_key).');
+        return;
       }
 
       const auth = new google.auth.JWT({
         email: keyFile.client_email,
-        key: keyFile.private_key,
+        key: keyFile.private_key.replace(/\\n/g, '\n'), // Handle escaped newlines
         scopes: [
           'https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly',
           'https://www.googleapis.com/auth/admin.directory.device.chromeos',
@@ -48,17 +62,16 @@ export class GoogleAdminService implements OnModuleInit {
           'https://www.googleapis.com/auth/chrome.management.policy',
           'https://www.googleapis.com/auth/admin.directory.orgunit',
         ],
-        subject: delegatedAdmin, // Domain-wide delegation
+        subject: delegatedAdmin,
       });
 
-      this.logger.log(`Initializing Google Admin with scopes: ${Array.isArray(auth.scopes) ? auth.scopes.join(', ') : auth.scopes}`);
-
+      this.logger.log(`Initializing directoryService and chromePolicyService...`);
       this.directoryService = google.admin({ version: 'directory_v1', auth });
       this.chromePolicyService = (google as any).chromepolicy({ version: 'v1', auth });
       this.isConfigured = true;
-      this.logger.log('✅ Google Admin SDK initialized successfully');
+      this.logger.log(`✅ Google Admin SDK initialized successfully for ${delegatedAdmin}`);
     } catch (error) {
-      this.logger.error('Failed to initialize Google Admin SDK:', error.message);
+      this.logger.error(`❌ Failed to initialize Google Admin SDK: ${error.message}`);
     }
   }
 
