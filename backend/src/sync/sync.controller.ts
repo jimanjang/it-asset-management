@@ -21,12 +21,13 @@ export class SyncController {
   }
 
   @Get('diagnostic')
-  getDiagnostic() {
+  async getDiagnostic() {
+    const status = await this.syncService.getStatus();
     return {
       google_service_account_configured: !!process.env.GOOGLE_SERVICE_ACCOUNT_KEY,
       google_delegated_admin: process.env.GOOGLE_DELEGATED_ADMIN ? 'Configured' : 'Missing',
       google_customer_id: process.env.GOOGLE_CUSTOMER_ID || 'my_customer (default)',
-      sdk_ready: this.syncService.getStatus().then(s => s.googleApiConfigured),
+      sdk_ready: status.googleApiConfigured,
     };
   }
 }
