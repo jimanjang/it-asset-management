@@ -13,12 +13,21 @@ import { PoliciesModule } from './policies/policies.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'sqljs',
-      location: 'data/chromeos_assets.sqlite',
-      autoSave: true,
-      autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV !== 'production',
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: (process.env.DB_TYPE === 'postgres' ? 'postgres' : 'sqljs') as any,
+        ...(process.env.DB_TYPE === 'postgres'
+          ? {
+              url: process.env.DATABASE_URL,
+              ssl: { rejectUnauthorized: false },
+            }
+          : {
+              location: 'data/chromeos_assets.sqlite',
+              autoSave: true,
+            }),
+        autoLoadEntities: true,
+        synchronize: process.env.NODE_ENV !== 'production',
+      }),
     }),
     ScheduleModule.forRoot(),
     AuthModule,
