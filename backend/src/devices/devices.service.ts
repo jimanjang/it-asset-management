@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, LessThan, IsNull, Not } from 'typeorm';
-import { Device, DeviceMetric, DeviceNetwork, DeviceUser, AssetHistory } from '../database/entities';
+import { Device, DeviceMetric, DeviceNetwork, DeviceUser, AssetHistory, Asset } from '../database/entities';
 import { GoogleAdminService } from '../sync/google-admin.service';
 
 @Injectable()
@@ -17,6 +17,8 @@ export class DevicesService {
     private deviceUserRepo: Repository<DeviceUser>,
     @InjectRepository(AssetHistory)
     private historyRepo: Repository<AssetHistory>,
+    @InjectRepository(Asset)
+    private assetsRepo: Repository<Asset>,
     private googleAdminService: GoogleAdminService,
   ) {}
 
@@ -220,5 +222,53 @@ export class DevicesService {
     } catch (error) {
       return [];
     }
+  }
+
+  async updateHardwareInfo(payload: { googleDeviceId: string; serialNumber: string; manufacturer: string; model: string }) {
+    let device = await this.devicesRepo.findOne({
+      where: [
+        { google_device_id: payload.googleDeviceId },
+        { serial_number: payload.serialNumber },
+      ],
+      relations: ['asset'],
+    });
+
+    if (!device) {
+      throw new NotFoundException(`Device with ID ${payload.googleDeviceId} or SN ${payload.serialNumber} not found. It may not have been synced from Google Admin yet.`);
+    }
+
+    // 1. Update Device
+    device.model = payload.model;
+    // Capture manufacturer in hardware_info JSON if not explicitly in table
+    device.hardware_info = {
+      ...(device.hardware_info || {}),
+      extension_collected_manufacturer: payload.manufacturer,
+      extension_collected_model: payload.model,
+      extension_collected_at: new Date().toISOString(),
+    };
+    
+    await this.devicesRepo.save(device);
+
+    // 2. Update linked Asset
+    if (device.asset) {
+      const asset = device.asset;
+      asset.manufacturer = payload.manufacturer;
+      asset.model = payload.model;
+      // Also update name if it was automated
+      if (asset.name.includes('Chrome Device') || asset.name.includes(device.serial_number)) {
+        asset.name = `${payload.model} (${device.serial_number})`;
+      }
+      await this.assetsRepo.save(asset);
+
+      // Log History
+      const history = new AssetHistory();
+      history.device_id = device.id;
+      history.asset_id = asset.id;
+      history.action = 'status_changed';
+      history.new_value = `Hardware info updated via Extension: ${payload.manufacturer} ${payload.model}`;
+      await this.historyRepo.save(history);
+    }
+
+    return { status: 'success', device_id: device.id };
   }
 }

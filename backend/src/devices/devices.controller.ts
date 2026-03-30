@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Post, Query } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 
 @Controller('devices')
@@ -67,5 +67,12 @@ export class DevicesController {
   @Get('activities/all')
   async getAllActivities(@Query('limit') limit?: number) {
     return this.devicesService.getAllChromeReports(limit);
+  }
+
+  @Post('hardware-info')
+  async updateHardwareInfo(
+    @Body() payload: { googleDeviceId: string; serialNumber: string; manufacturer: string; model: string },
+  ) {
+    return this.devicesService.updateHardwareInfo(payload);
   }
 }

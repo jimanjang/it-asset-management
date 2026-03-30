@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "IT Asset Hardware Collector",
+  "version": "1.0.0",
+  "description": "Collects hardware manufacturer and model information for IT asset management.",
+  "permissions": [
+    "enterprise.hardwarePlatform",
+    "enterprise.deviceAttributes",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "minimum_chrome_version": "71"
+}
