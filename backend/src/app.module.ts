@@ -14,20 +14,25 @@ import { PoliciesModule } from './policies/policies.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        type: (process.env.DB_TYPE === 'postgres' ? 'postgres' : 'sqljs') as any,
-        ...(process.env.DB_TYPE === 'postgres'
-          ? {
-              url: process.env.DATABASE_URL,
-              ssl: { rejectUnauthorized: false },
-            }
-          : {
-              location: 'data/chromeos_assets.sqlite',
-              autoSave: true,
-            }),
-        autoLoadEntities: true,
-        synchronize: process.env.NODE_ENV !== 'production',
-      }),
+      useFactory: () => {
+        const isPostgres = !!process.env.DATABASE_URL || process.env.DB_TYPE === 'postgres';
+        return {
+          type: (isPostgres ? 'postgres' : 'sqljs') as any,
+          ...(isPostgres
+            ? {
+                url: process.env.DATABASE_URL,
+                ssl: process.env.NODE_ENV === 'production' 
+                  ? { rejectUnauthorized: false } 
+                  : false,
+              }
+            : {
+                location: 'chromeos_assets.sqlite',
+                autoSave: true,
+              }),
+          autoLoadEntities: true,
+          synchronize: process.env.NODE_ENV !== 'production' || !isPostgres,
+        };
+      },
     }),
     ScheduleModule.forRoot(),
     AuthModule,
