@@ -118,9 +118,11 @@ export interface SyncLog {
 }
 
 export interface SyncStatus {
+  isSyncing: boolean;
+  lastSync: SyncLog | null;
   googleApiConfigured: boolean;
-  lastSyncAt: string | null;
-  lastSyncStatus: string | null;
+  lastSyncAt?: string | null;
+  lastSyncStatus?: string | null;
 }
 
 export interface PaginationMeta {
@@ -139,11 +141,7 @@ export interface DashboardSummary {
   models: { model: string; count: string }[];
 }
 
-export interface SyncStatus {
-  isSyncing: boolean;
-  lastSync: any;
-  googleApiConfigured: boolean;
-}
+// Duplicated SyncStatus removed to avoid merge conflicts
 
 // Format helpers
 export function formatBytes(bytes: number | null): string {
