@@ -7,11 +7,7 @@ export class PoliciesController {
 
   @Get()
   async getPolicies(@Query('orgUnitPath') orgUnitPath?: string) {
-    try {
-      return await this.policiesService.getPolicies(orgUnitPath);
-    } catch (e) {
-      return { error: e.message, stack: e.stack };
-    }
+    return await this.policiesService.getPolicies(orgUnitPath);
   }
 
   @Post('update')
@@ -28,10 +24,6 @@ export class PoliciesController {
 
   @Get('org-units')
   async getOrgUnits() {
-    try {
-      return await this.policiesService.getOrgUnits();
-    } catch (e) {
-      return { error: e.message, stack: e.stack };
-    }
+    return await this.policiesService.getOrgUnits();
   }
 }

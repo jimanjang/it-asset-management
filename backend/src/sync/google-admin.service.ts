@@ -325,7 +325,10 @@ export class GoogleAdminService implements OnModuleInit {
    * Resolve Chrome policies for a target (OU)
    */
   async resolvePolicies(target: string, schemas: string[] = []): Promise<any> {
-    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    if (!this.isReady()) {
+      this.logger.warn('Google Admin SDK not ready, returning empty policies');
+      return [];
+    }
     this.logger.debug(`resolvePolicies called for target: ${target}`);
     
     // For Chrome Policy API, 'my_customer' is REQUIRED for some domains/OUs
@@ -352,7 +355,10 @@ export class GoogleAdminService implements OnModuleInit {
    * List all Org Units to find the target
    */
   async listOrgUnits(): Promise<admin_directory_v1.Schema$OrgUnit[]> {
-    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    if (!this.isReady()) {
+      this.logger.warn('Google Admin SDK not ready, returning empty org units');
+      return [];
+    }
     const customerId = process.env.GOOGLE_CUSTOMER_ID || 'my_customer';
     try {
       const response = await this.directoryService.orgunits.list({
@@ -366,8 +372,8 @@ export class GoogleAdminService implements OnModuleInit {
     }
   }
 
-  async getRootOrgUnit(): Promise<admin_directory_v1.Schema$OrgUnit> {
-    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+  async getRootOrgUnit(): Promise<admin_directory_v1.Schema$OrgUnit | null> {
+    if (!this.isReady()) return null;
     const customerId = process.env.GOOGLE_CUSTOMER_ID || 'my_customer';
     try {
       const response = await this.directoryService.orgunits.get({
