@@ -11,6 +11,7 @@ import * as fs from 'fs';
 export class GoogleAdminService implements OnModuleInit {
   private readonly logger = new Logger(GoogleAdminService.name);
   private directoryService: admin_directory_v1.Admin;
+  private chromePolicyService: any; // We'll use types from googleapis if available
   private isConfigured = false;
 
   async onModuleInit() {
@@ -44,11 +45,16 @@ export class GoogleAdminService implements OnModuleInit {
           'https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly',
           'https://www.googleapis.com/auth/admin.directory.device.chromeos',
           'https://www.googleapis.com/auth/admin.reports.audit.readonly',
+          'https://www.googleapis.com/auth/chrome.management.policy',
+          'https://www.googleapis.com/auth/admin.directory.orgunit',
         ],
         subject: delegatedAdmin, // Domain-wide delegation
       });
 
+      this.logger.log(`Initializing Google Admin with scopes: ${Array.isArray(auth.scopes) ? auth.scopes.join(', ') : auth.scopes}`);
+
       this.directoryService = google.admin({ version: 'directory_v1', auth });
+      this.chromePolicyService = (google as any).chromepolicy({ version: 'v1', auth });
       this.isConfigured = true;
       this.logger.log('✅ Google Admin SDK initialized successfully');
     } catch (error) {
@@ -267,6 +273,98 @@ export class GoogleAdminService implements OnModuleInit {
       console.error('Failed to fetch device reports', error);
       // Return empty array if scope is missing instead of crashing
       return [];
+    }
+  }
+
+  /**
+   * Update a Chrome policy for an OU
+   */
+  async updatePolicy(target: string, schema: string, value: any, updateMask: string): Promise<any> {
+    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    // Using 'my_customer' for Chrome Policy API reliability
+    const customerId = 'my_customer';
+    try {
+      const response = await this.chromePolicyService.customers.policies.orgunits.batchModify({
+        customer: `customers/${customerId}`,
+        requestBody: {
+          requests: [
+            {
+              policyTargetKey: {
+                targetResource: target,
+              },
+              policyValue: {
+                policySchema: schema,
+                value: value,
+              },
+              updateMask: updateMask,
+            },
+          ],
+        },
+      });
+      return response.data;
+    } catch (error) {
+      this.logger.error(`Failed to update policy ${schema} for ${target}:`, error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Resolve Chrome policies for a target (OU)
+   */
+  async resolvePolicies(target: string, schemas: string[] = []): Promise<any> {
+    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    this.logger.debug(`resolvePolicies called for target: ${target}`);
+    
+    // For Chrome Policy API, 'my_customer' is REQUIRED for some domains/OUs
+    const customerId = 'my_customer';
+    
+    try {
+      const response = await this.chromePolicyService.customers.policies.resolve({
+        customer: `customers/${customerId}`,
+        requestBody: {
+          policyTargetKey: {
+            targetResource: target,
+          },
+          policySchemaFilter: 'chrome.users.*',
+        },
+      });
+      return response.data.resolvedPolicies || [];
+    } catch (error) {
+      this.logger.error(`Failed to resolve policies for ${target}: ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * List all Org Units to find the target
+   */
+  async listOrgUnits(): Promise<admin_directory_v1.Schema$OrgUnit[]> {
+    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    const customerId = process.env.GOOGLE_CUSTOMER_ID || 'my_customer';
+    try {
+      const response = await this.directoryService.orgunits.list({
+        customerId,
+        type: 'all',
+      });
+      return response.data.organizationUnits || [];
+    } catch (error) {
+      this.logger.error('Failed to list org units:', error.stack || error.message);
+      throw error;
+    }
+  }
+
+  async getRootOrgUnit(): Promise<admin_directory_v1.Schema$OrgUnit> {
+    if (!this.isReady()) throw new Error('Google Admin SDK not ready');
+    const customerId = process.env.GOOGLE_CUSTOMER_ID || 'my_customer';
+    try {
+      const response = await this.directoryService.orgunits.get({
+        customerId,
+        orgUnitPath: '/',
+      });
+      return response.data;
+    } catch (error) {
+      this.logger.error('Failed to get root org unit:', error.message);
+      throw error;
     }
   }
 }

@@ -8,6 +8,7 @@ import { SyncModule } from './sync/sync.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { PoliciesModule } from './policies/policies.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     AssetsModule,
     SyncModule,
     DashboardModule,
+    PoliciesModule,
   ],
 })
 export class AppModule {}

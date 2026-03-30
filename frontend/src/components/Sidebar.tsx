@@ -10,6 +10,7 @@ const navItems = [
   { href: '/assets', label: '자산 관리', icon: '📦' },
   { href: '/activities', label: '활동 이력', icon: '📅' },
   { href: '/sync', label: '동기화 관리', icon: '🔄' },
+  { href: '/policies', label: '정책 관리', icon: '🛡️' },
 ];
 
 export default function Sidebar() {
