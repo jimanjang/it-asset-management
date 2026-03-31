@@ -13,6 +13,7 @@ export class GoogleAdminService implements OnModuleInit {
   private directoryService: admin_directory_v1.Admin;
   private chromePolicyService: any; // We'll use types from googleapis if available
   private isConfigured = false;
+  private lastError: string | null = null;
 
   async onModuleInit() {
     await this.initialize();
@@ -20,6 +21,7 @@ export class GoogleAdminService implements OnModuleInit {
 
   private async initialize() {
     try {
+      this.lastError = null;
       const keyFilePath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY?.trim();
       const delegatedAdmin = process.env.GOOGLE_DELEGATED_ADMIN?.trim();
 
@@ -71,12 +73,17 @@ export class GoogleAdminService implements OnModuleInit {
       this.isConfigured = true;
       this.logger.log(`✅ Google Admin SDK initialized successfully for ${delegatedAdmin}`);
     } catch (error) {
+      this.lastError = error.message;
       this.logger.error(`❌ Failed to initialize Google Admin SDK: ${error.message}`);
     }
   }
 
   isReady(): boolean {
     return this.isConfigured;
+  }
+
+  getLastError(): string | null {
+    return this.lastError;
   }
 
   /**
@@ -384,6 +391,26 @@ export class GoogleAdminService implements OnModuleInit {
     } catch (error) {
       this.logger.error('Failed to get root org unit:', error.message);
       throw error;
+    }
+  }
+
+  /**
+   * Checks if a specific user has Super Admin privileges in Google Workspace.
+   */
+  async isSuperAdmin(email: string): Promise<boolean> {
+    if (!this.isReady()) {
+      this.logger.warn('Google Admin SDK not configured, admin check skipped (denied)');
+      return false;
+    }
+
+    try {
+      const res = await this.directoryService.users.get({ userKey: email });
+      const isAdmin = res.data.isAdmin || false;
+      this.logger.log(`Admin Check: ${email} -> isAdmin: ${isAdmin}`);
+      return isAdmin;
+    } catch (error: any) {
+      this.logger.error(`Error checking admin status for ${email}: ${error.message}`);
+      return false;
     }
   }
 }

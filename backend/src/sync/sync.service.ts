@@ -370,6 +370,7 @@ export class SyncService {
       isSyncing: this.isSyncing,
       lastSync: latest || null,
       googleApiConfigured: this.googleAdmin.isReady(),
+      googleApiError: this.googleAdmin.getLastError(),
     };
   }
 

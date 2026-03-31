@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../database/entities';
+import { GoogleAdminService } from '../sync/google-admin.service';
 
 @Injectable()
 export class AuthService {
@@ -10,6 +11,7 @@ export class AuthService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
+    private googleAdminService: GoogleAdminService,
   ) {}
 
   async validateGoogleUser(profile: {
@@ -18,10 +20,10 @@ export class AuthService {
     name: string;
     picture: string;
   }) {
-    // Domain restriction check
-    const allowedDomain = process.env.ALLOWED_DOMAIN || 'daangnservice.com';
-    if (!profile.email.endsWith(`@${allowedDomain}`)) {
-      throw new Error(`Only @${allowedDomain} accounts are allowed`);
+    // Check for GWS Super Admin status
+    const isAdmin = await this.googleAdminService.isSuperAdmin(profile.email);
+    if (!isAdmin) {
+      throw new Error(`Access Denied: ${profile.email} is not a Super Admin.`);
     }
 
     let user = await this.usersRepository.findOne({

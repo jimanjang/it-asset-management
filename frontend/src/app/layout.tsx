@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "당근서비스 워크 | IT 자산 & 디바이스 관리",
@@ -19,7 +20,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
