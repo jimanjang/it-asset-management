@@ -6,13 +6,12 @@ import { normalizePrivateKey } from "./auth-utils";
  */
 async function getGoogleAuth(scopes: string[], subject?: string) {
   // Use JWT for reliable domain-wide delegation
-  return new google.auth.JWT(
-    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    undefined,
-    normalizePrivateKey(process.env.GOOGLE_PRIVATE_KEY),
+  return new google.auth.JWT({
+    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    key: normalizePrivateKey(process.env.GOOGLE_PRIVATE_KEY),
     scopes,
     subject
-  );
+  });
 }
 
 /**
