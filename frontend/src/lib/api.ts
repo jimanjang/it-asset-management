@@ -141,6 +141,36 @@ export interface DashboardSummary {
   models: { model: string; count: string }[];
 }
 
+export enum ExceptionStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  EXPIRED = 'EXPIRED',
+  REVOKED = 'REVOKED',
+}
+
+export enum ExceptionType {
+  GROUP_POLICY = 'GROUP_POLICY',
+  OU_MOVE = 'OU_MOVE',
+  RELAY = 'RELAY',
+}
+
+export interface ExceptionRequest {
+  id: string;
+  requesterEmail: string;
+  filename?: string;
+  url: string;
+  reason: string;
+  status: ExceptionStatus;
+  type: ExceptionType;
+  adminEmail?: string;
+  approvedAt?: string;
+  expiresAt?: string;
+  adminComment?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // Duplicated SyncStatus removed to avoid merge conflicts
 
 // Format helpers
@@ -176,5 +206,31 @@ export function formatDate(dateStr: string | null): string {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
+  });
+}
+
+// Exceptions Implementation
+export async function createExceptionRequest(data: { url: string; reason: string; requesterEmail: string; filename?: string }): Promise<ExceptionRequest> {
+  return fetchApi<ExceptionRequest>('/v1/exceptions', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export async function getExceptionHistory(limit: number = 50): Promise<ExceptionRequest[]> {
+  return fetchApi<ExceptionRequest[]>(`/v1/exceptions/history?limit=${limit}`);
+}
+
+export async function approveException(id: string, durationMinutes: number = 60): Promise<ExceptionRequest> {
+  return fetchApi<ExceptionRequest>(`/v1/exceptions/${id}/approve`, {
+    method: 'PATCH',
+    body: JSON.stringify({ durationMinutes }),
+  });
+}
+
+export async function rejectException(id: string, comment?: string): Promise<ExceptionRequest> {
+  return fetchApi<ExceptionRequest>(`/v1/exceptions/${id}/reject`, {
+    method: 'PATCH',
+    body: JSON.stringify({ comment }),
   });
 }

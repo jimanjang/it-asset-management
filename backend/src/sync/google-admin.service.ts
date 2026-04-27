@@ -63,6 +63,8 @@ export class GoogleAdminService implements OnModuleInit {
           'https://www.googleapis.com/auth/admin.reports.audit.readonly',
           'https://www.googleapis.com/auth/chrome.management.policy',
           'https://www.googleapis.com/auth/admin.directory.orgunit',
+          'https://www.googleapis.com/auth/admin.directory.group',
+          'https://www.googleapis.com/auth/admin.directory.group.member',
         ],
         subject: delegatedAdmin,
       });
@@ -411,6 +413,61 @@ export class GoogleAdminService implements OnModuleInit {
     } catch (error: any) {
       this.logger.error(`Error checking admin status for ${email}: ${error.message}`);
       return false;
+    }
+  }
+
+  /**
+   * Add a member to a Google Group
+   */
+  async addGroupMember(groupEmail: string, userEmail: string): Promise<any> {
+    if (!this.isReady()) {
+      this.logger.warn(`Google Admin SDK not ready. Mock: Added ${userEmail} to ${groupEmail}`);
+      return { email: userEmail, role: 'MEMBER', status: 'ACTIVE' };
+    }
+    try {
+      const response = await this.directoryService.members.insert({
+        groupKey: groupEmail,
+        requestBody: {
+          email: userEmail,
+          role: 'MEMBER',
+        },
+      });
+      this.logger.log(`Successfully added ${userEmail} to group ${groupEmail}`);
+      return response.data;
+    } catch (error) {
+      // If already a member (409), treat as success
+      if (error.code === 409) {
+        this.logger.warn(`${userEmail} is already a member of ${groupEmail}`);
+        return { email: userEmail, alreadyMember: true };
+      }
+      this.logger.error(`Failed to add group member: ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Remove a member from a Google Group
+   */
+  async removeGroupMember(groupEmail: string, userEmail: string): Promise<any> {
+    if (!this.isReady()) {
+      this.logger.warn(`Google Admin SDK not ready. Mock: Removed ${userEmail} from ${groupEmail}`);
+      return { success: true };
+    }
+    try {
+      const response = await this.directoryService.members.delete({
+        groupKey: groupEmail,
+        memberKey: userEmail,
+      });
+      this.logger.log(`Successfully removed ${userEmail} from group ${groupEmail}`);
+      return response.data;
+    } catch (error) {
+      // If not a member (404), treat as success for idempotency
+      if (error.code === 404) {
+        this.logger.warn(`${userEmail} was not a member of ${groupEmail}`);
+        return { success: true, alreadyGone: true };
+      }
+      this.logger.error(`Failed to remove group member: ${error.message}`);
+      throw error;
     }
   }
 }

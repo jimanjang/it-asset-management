@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "당근서비스 IT 정책 예외 헬퍼",
+  "version": "1.0",
+  "description": "차단된 다운로드 파일에 대한 예외 승인 요청을 간편하게 수행합니다.",
+  "permissions": [
+    "downloads",
+    "notifications",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

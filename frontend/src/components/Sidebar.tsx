@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 
-const navItems = [
+const mainNavItems = [
   { href: '/', label: 'Dashboard', icon: '🏠' },
   { href: '/devices', label: '디바이스 관리', icon: '💻' },
   { href: '/assets', label: '자산 관리', icon: '📦' },
@@ -14,9 +14,32 @@ const navItems = [
   { href: '/policies', label: '정책 관리', icon: '🛡️' },
 ];
 
+const requestNavItems = [
+  { href: '/requests/download-exception', label: '다운로드 예외 신청', icon: '📥' },
+];
+
+const adminNavItems = [
+  { href: '/admin/exceptions', label: '예외 승인 관리', icon: '🛂' },
+];
+
 export default function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const isAdmin = (session?.user as any)?.isAdmin;
+
+  const renderLink = (item: { href: string; label: string; icon: string }) => {
+    const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        className={`sidebar-link ${isActive ? 'active' : ''}`}
+      >
+        <span className="text-lg">{item.icon}</span>
+        <span>{item.label}</span>
+      </Link>
+    );
+  };
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-[260px] bg-white border-r border-[#F3E8DE] flex flex-col z-50">
@@ -27,20 +50,29 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`sidebar-link ${isActive ? 'active' : ''}`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+      <nav className="flex-1 px-4 py-4 space-y-4 overflow-y-auto">
+        <div>
+          <p className="px-3 mb-2 text-[10px] font-bold text-[#999] uppercase tracking-wider">Main</p>
+          <div className="space-y-1">
+            {mainNavItems.map(renderLink)}
+          </div>
+        </div>
+
+        <div>
+          <p className="px-3 mb-2 text-[10px] font-bold text-[#999] uppercase tracking-wider">Requests</p>
+          <div className="space-y-1">
+            {requestNavItems.map(renderLink)}
+          </div>
+        </div>
+
+        {isAdmin && (
+          <div>
+            <p className="px-3 mb-2 text-[10px] font-bold text-[#999] uppercase tracking-wider">Admin Only</p>
+            <div className="space-y-1">
+              {adminNavItems.map(renderLink)}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* User Info */}

@@ -7,3 +7,4 @@ export { DeviceUser } from './device-user.entity';
 export { Assignment } from './assignment.entity';
 export { AssetHistory } from './asset-history.entity';
 export { SyncLog } from './sync-log.entity';
+export { ExceptionRequest, ExceptionStatus, ExceptionType } from './exception-request.entity';
